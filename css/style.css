@@ -1,0 +1,27 @@
+body{
+    background: lightskyblue;
+}
+
+#main-page-content div.jumbotron{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-image: url(https://thumbs.gfycat.com/BraveOptimalBaleenwhale-size_restricted.gif);
+    min-height: 100%;
+    height: 100%;
+}
+
+#welcome-card{
+    min-height: 50vh;
+    height: 50vh;
+    border-radius: 0;
+}
+
+#welcome-card > h2{
+    
+}
+
+#welcome-card > p{
+    text-align: center;
+    color: red;
+}
