@@ -1,5 +1,8 @@
 body{
     --background-splash-img: url("https://d2q63o9r0h0ohi.cloudfront.net/images/fb-share/the-witchwood/en-us/social-share-4e04d4cbbac8229cc1f40606acb031fce4adeaa42925240a8597f361adfa06346833321548e791f43f56909eea368646e7055f525c9dc74c60409bae2857baf8.jpg");
+    width: 100%;
+    padding: none;
+    margin: none;
 }
 
 header{
