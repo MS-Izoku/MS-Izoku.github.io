@@ -1,0 +1,40 @@
+body{
+    --background-splash-img: url("https://d2q63o9r0h0ohi.cloudfront.net/images/fb-share/the-witchwood/en-us/social-share-4e04d4cbbac8229cc1f40606acb031fce4adeaa42925240a8597f361adfa06346833321548e791f43f56909eea368646e7055f525c9dc74c60409bae2857baf8.jpg");
+}
+
+header{
+    --padding-v: 1%;
+    --padding-h: 1%;
+    
+    background: red;
+    display: flex;
+    justify-content: space-between;
+    
+    padding-top: var(--padding-v);
+    padding-bottom: var(--padding-v);
+    padding-left: var(--padding-h);
+    padding-right: var(--padding-h);
+}
+
+footer{
+    background: red;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+#landing-splash{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: green;
+    /*background-image: var(--background-splash-img);*/
+}
+
+#landing-splash p{
+    margin: auto;
+}
+
+#landing-splash h1{
+    margin: auto;
+}
