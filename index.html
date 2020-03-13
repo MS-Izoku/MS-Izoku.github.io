@@ -1,105 +1,45 @@
 <!DOCTYPE html>
+<html>
+
 <head>
     <link rel="stylesheet" type="text/css" href="css/index.css">
+    <title>Spicuzza</title>
 </head>
 
 <body>
-    <header>
-        <a>Contact</a>
-        <a>Projects</a>
-        <a>About Me</a>
-    </header>
-    <div id="main-page-content">
-        <div id="welcome-page">
-            <!-- Welcome Image -->
-            <!--<div id="personal-blip">This is where I put my pitch, float this over the bg-img</div>
-            <img src="#" alt="background-gif"/>-->
-            <div id="landing-splash">
-               <h1>Welcome</h1>
-             
-               <p>Fullstack Web Development, Game Development, Professional Nerd</p>
-            </div>
-        </div>
-        <div id="projects-page"></div> 
-        <div id="about-me-page">
-            <!-- STACK INFO -->
-            <div class="flex-row">
-                <div class="flex-col">
-                    <header>Game Technology</header>
-                    <div>
-                        <h3>Art</h3>
-                        <ul>
-                            <li><a href="#">Autodesk Maya</a></li>
-                            <li><a href="#">Adobe Photoshop</a></li>
-                            <li><a href="#">Adobe Illustator</a></li>
-                            <li><a href="#">Substance Designer</a></li>
-                            <li><a href="#">Zbrush</a></li>
-                        </ul>
-                        
-                    </div>
-                    <div>
-                        <h3>Engines</h3>
-                    <ul>
-                        <li><a href="#">Unity 5 - 2020</a></li>
-                        <li><a href="#">Unreal Engine 4</a></li>
-                        <li><a href="#">GameMaker</li>
-                    </ul>
-                    </div>
-                </div>
+    <script src="js/three.js"></script>
+    <script>
+        console.log("RENDERING THREE.js");
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+            75, // fog
+            window.innerWidth / window.innerHeight, // dimensions
+            0.1,    // inner camera plane
+            1000    // outer camera plane
+        );
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth , window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+        document.addEventListener("resize" , ()=>{
+            
+        })
 
-                <div class="flex-col">
-                    <header>Web Tech</header>
-                    <div>
-                        <h3>Languages</h3>
-                    <ul>
-                        <li><a href="#">Javascript</a></li>
-                        <li><a href="#">C#</a></li>
-                        <li><a href="#">Ruby</a></li>
-                        <li><a href="#">HTML5</a></li>
-                        <li><a href="#">CSS</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>Frameworks and Libraries</h3>
-                    <ul>
-                        <li><a href="#">React.js</a></li>
-                        <li><a href="#">Redux.js</a></li>
-                        <li><a href="#">Ruby on Rails</a></li>
-                        <li><a href="#">Monobehavior (Unity)</a></li>
-                        <li><a href="#">NPM and Yarn</a></li>
-                    </ul>
-                </div>
+        const update = () =>{
+        }
 
-                </div>
-                <div class="flex-col">
-                    <div>
-                    <h3></h3>
-                    <ul>
-                        <li><a href="#"></a></li>
-                        <li><a href="#"></a></li>
-                        <li><a href="#"></a></li>
-                        <li><a href="#"></a></li>
-                    </ul>
-                </div>
-                </div>
+        const render = () =>{
+            renderer.render(scene , camera);
+        }
 
-                            <!-- BIO -->
-            <div>
-                <header><h2>Bio</h2></header>
-                <p>For those of you who know me: Hello!<p>
-                <p>For those who dont:</p>
-                <p>For this part, I suggest you read this in a soft, sultry internal voice.  Perhaps that of a radio host, maybe Morgan Freeman, or even Gilbert Godfrey if you're feeling particularly saucy.</p>
-                <p>I got my start in tech at <a href="#">ID Tech</a> when I was 10 years old, learning about whole of the game development process.  I would later go on to getting a Bachelors degree in Computer Science from <a href="#">DePaul University</a> in 2016.</p>
-                <p>I decided to transition into web development a few years later, getting my start at <a href="#">Flatiron School</a>.  While not my first time time coding, it was a great educational experience in a new field.</p>
-            </div>
 
-            </div>
-        </div> 
-        <div id="contact-page">
-            <header><h2>Contact Me<h2></header>
-            <p>Email: spicuzza157@gmail.com<p>
-            <p>Phone: 1-773-316-9908</p>
-        </div>     
-    </div>
-    <footer>PAGE FOOTER</footer>
+        const realTimeLoop = () =>{
+            requestAnimationFrame(realTimeLoop);
+            update();
+            render();
+        }
+        realTimeLoop();
+    
+    </script>
 </body>
+
+</html>
