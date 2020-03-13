@@ -1,48 +1,48 @@
 body{
-    --background-splash-img: url("https://d2q63o9r0h0ohi.cloudfront.net/images/fb-share/the-witchwood/en-us/social-share-4e04d4cbbac8229cc1f40606acb031fce4adeaa42925240a8597f361adfa06346833321548e791f43f56909eea368646e7055f525c9dc74c60409bae2857baf8.jpg");
-    padding: 0px;
-    margin: 0px;
+    margin: 0;
+    height: 100vh;
+    --font-color: rgb(255 , 255 , 255);
+    --link-color: rgb(255 , 255 , 255);
+}
 
-    --background-color: rgb(0 , 0,  0);
+canvas{
+    display: block;
 }
 
 #root{
-    background: blue;
+    position: absolute;
+    width: 100%;
+    min-width: 100%;
+    color: var(--font-color);
+}
+
+h1{
+    color: var(--font-color);
 }
 
 header{
-    --padding-v: 1%;
-    --padding-h: 1%;
-    
-    background: var(--background-color);
     display: flex;
-    justify-content: space-between;
-    
-    padding-top: var(--padding-v);
-    padding-bottom: var(--padding-v);
-    padding-left: var(--padding-h);
-    padding-right: var(--padding-h);
+    justify-content: space-around;
+    --color: rgba(0 , 0 , 0 , 0.25);
+    background: var(--color);
+    box-shadow: 0px 5px 20px var(--color);
 }
+
+header a{
+    margin: auto;
+    text-decoration: none;
+    color: white;
+}
+
 
 footer{
-    background: red;
     display: flex;
     justify-content: space-between;
 }
 
-
-#landing-splash{
-    width: 100%;
+footer div{
+    width: 100%;;
+    /*margin: auto;*/
     display: flex;
-    flex-direction: column;
-    background: green;
-    /*background-image: var(--background-splash-img);*/
-}
-
-#landing-splash p{
-    margin: auto;
-}
-
-#landing-splash h1{
-    margin: auto;
+    justify-content: space-between;
 }
