@@ -4,6 +4,16 @@
 <head>
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <title>Spicuzza</title>
+
+    <style>
+        body {
+            margin: 0;
+        }
+        
+        canvas {
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
@@ -12,33 +22,64 @@
         console.log("RENDERING THREE.js");
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(
-            75, // fog
-            window.innerWidth / window.innerHeight, // dimensions
-            0.1,    // inner camera plane
-            1000    // outer camera plane
+            75, // FoV
+            window.innerWidth / window.innerHeight, // aspect ratio
+            0.1, // inner camera plane
+            1000 // outer camera plane
         );
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth , window.innerHeight);
+        camera.position.z = 5;
+
+
+        // renderer setup
+        const renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
-        document.addEventListener("resize" , ()=>{
-            
+        renderer.setClearColor("rgb(20 , 20 , 20)")
+
+        window.addEventListener("resize", (event) => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+
+            camera.updateProjectionMatrix(); // needs to be run on resize
         })
+
+        const render = () => {
+            renderer.render(scene, camera);
+        }
+
+        //#region Geometry / Objects
+        const sphere = new THREE.SphereGeometry(1 , 100 , 100);
+        const sphereMat = new THREE.MeshLambertMaterial({color: "rgb(255 , 0 , 0)"})
+        const sphereMesh = new THREE.Mesh(sphere , sphereMat);
+        scene.add(sphereMesh);
+        //#endregion
+
+        //#region Lighting
+        const ambient = new THREE.AmbientLight( 0x404040 );
+        scene.add(ambient);
+
+        const pointLight = new THREE.PointLight(0x404040);
+        pointLight.position.set(50 , 50 , 50);
+        scene.add(pointLight);
+
+
+        // moving light test
+        window.addEventListener("mousemove" , (event) =>{
+            pointLight.position.set(event.clientX , 50 ,  event.clientY)
+        })
+        //#endregion
 
         const update = () =>{
         }
 
-        const render = () =>{
-            renderer.render(scene , camera);
-        }
-
-
-        const realTimeLoop = () =>{
+        const realTimeLoop = () => {
             requestAnimationFrame(realTimeLoop);
             update();
             render();
         }
-        realTimeLoop();
-    
+
+        //render();
+         realTimeLoop();
     </script>
 </body>
 
