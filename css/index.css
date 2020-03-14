@@ -18,8 +18,8 @@ canvas{
     color: var(--font-color);
 }
 
-h1{
-    color: var(--font-color);
+main{
+    margin: 2%;
 }
 
 header{

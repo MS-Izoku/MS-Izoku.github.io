@@ -18,35 +18,45 @@
 
 <body>
     <div id="root">
-       <header>
-           <a href="#">Projects</a>
-           <a href="#">Bio</a>
-           <h1>Spicuzza</h1>
-           <a href="#">Resume</a>
-           <a href="#">Contact</a>
-       </header>
+        <header>
+            <a href="#">Projects</a>
+            <a href="#">Bio</a>
+            <h1>Spicuzza</h1>
+            <a href="#">Resume</a>
+            <a href="#">Contact</a>
+        </header>
 
-       <main>
-           <p>When I was a wee lad</p>
-       </main>
+        <main>
+            <p>When I was a wee lad</p>
+        </main>
 
-       <footer>
-        <div id="social">
-            <ul>
-                <li><a href="#">Github</a></li>
-                <li><a href="#">Blog</a></li>
-            </ul>
-        </div>
-        <div id="other">
-            <p>Other Section</p>
-        </div>
-       </footer>
+        <footer>
+            <div id="social">
+                <ul>
+                    <li><a href="#">Github</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div id="other">
+                <p>Other Section</p>
+            </div>
+        </footer>
     </div>
     <script src="js/three.js"></script>
-    
-    
+
+
     <script>
-        console.log("RENDERING THREE.js");
+        var clusters = []; // container for generated clusters
+
+        const randomInt = (max = 10, min = 0) => {
+            const res = Math.floor(Math.random() * Math.floor(max));
+            return res > min ? res : min;
+        };
+        const clusterCount = 20; // count of total clusters
+        const clusterMinCount = 5;
+        const clusterMaxCount = 10;
+
+        //#region scene setup
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(
             75, // FoV
@@ -55,10 +65,13 @@
             1000 // outer camera plane
         );
         camera.position.z = 5;
+        //#endregion
 
 
-        // renderer setup
-        const renderer = new THREE.WebGLRenderer({antialias: true});
+        //#region renderer setup
+        const renderer = new THREE.WebGLRenderer({
+            antialias: true
+        });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
         renderer.setClearColor("rgb(20 , 20 , 20)")
@@ -73,31 +86,66 @@
         const render = () => {
             renderer.render(scene, camera);
         }
-
-        //#region Geometry / Objects
-        const sphere = new THREE.SphereGeometry(1 , 100 , 100);
-        const sphereMat = new THREE.MeshLambertMaterial({color: "rgb(255 , 0 , 0)"})
-        const sphereMesh = new THREE.Mesh(sphere , sphereMat);
-        scene.add(sphereMesh);
         //#endregion
 
+
         //#region Lighting
-        const ambient = new THREE.AmbientLight( 0x404040 );
+        const ambient = new THREE.AmbientLight(0x404040);
         scene.add(ambient);
 
         const pointLight = new THREE.PointLight(0x404040);
-        pointLight.position.set(50 , 50 , 50);
+        pointLight.position.set(50, 50, 50);
         scene.add(pointLight);
-
-
-        // moving light test
-        window.addEventListener("mousemove" , (event) =>{
-            pointLight.position.set(event.clientX , 50 ,  event.clientY)
-        })
         //#endregion
 
-        const update = () =>{
+        //#region Mesh Generators
+        function generateCluster() {
+             const material = new THREE.MeshLambertMaterial( { color: 0x888888 } );
+
+            let clusterGroupObj = new THREE.Group();
+            scene.add(clusterGroupObj);
+
+            let clusterRange = randomInt(clusterMaxCount);
+            if (clusterRange > clusterMinCount) clusterRange = clusterMinCount;
+
+            for (let j = 0; j < clusterRange; j++) {
+                let clusterRange = randomInt(clusterMaxCount);
+                if (clusterRange > clusterMinCount) clusterRange = clusterMinCount;
+                const x = Math.random(1, 20);
+                const y = Math.random(1, 20);
+                const z = Math.random(1, 20);
+
+                console.log("XYZ", x, y, x);
+                const geometry = new THREE.BoxGeometry(x, y, z);
+             
+                const cube = new THREE.Mesh(geometry, material);
+                scene.add(cube);
+                clusterGroupObj.add(cube);
+                clusters.push(clusterGroupObj);
+            }
         }
+
+        function randomizePosition(obj , min , max){
+
+        }
+
+        function randomizeScale(obj , min , max){
+
+        }
+
+
+        //#endregion
+
+        function generateBackground() {
+            for(let i = 0; i < clusterCount; i++){
+                generateCluster();
+            }
+        }
+        generateBackground();
+
+
+
+        const update = () => {}
 
         const realTimeLoop = () => {
             requestAnimationFrame(realTimeLoop);
@@ -105,8 +153,7 @@
             render();
         }
 
-        //render();
-         realTimeLoop();
+        realTimeLoop();
     </script>
 </body>
 
