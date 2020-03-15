@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <meta charset="utf-8">
     <title>Spicuzza</title>
 
     <style>
@@ -14,6 +14,14 @@
             display: block;
         }
     </style>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/mdb.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 
 <body>
@@ -26,14 +34,14 @@
             <a href="#">Contact</a>
         </header>
 
-            <div class="arrow-down">
-                <p>ARROW</p>
-            </div>
+        <div class="arrow-down">
+           <i class="fas fa-angle-double-down fa-3x"></i>
+        </div>
 
-            <div id="landing-grid">
-                <div></div>
-                <div></div> 
-            </div>
+        <div id="landing-grid">
+            <div></div>
+            <div></div>
+        </div>
         <main>
 
         </main>
@@ -92,9 +100,9 @@
         })
 
         const render = () => {
-            renderer.render(scene, camera);
-        }
-        //#endregion
+                renderer.render(scene, camera);
+            }
+            //#endregion
 
 
         //#region Lighting
@@ -108,7 +116,9 @@
 
         //#region Mesh Generators
         function generateCluster() {
-             const material = new THREE.MeshLambertMaterial( { color: 0x888888 } );
+            const material = new THREE.MeshLambertMaterial({
+                color: 0x888888
+            });
 
             let clusterGroupObj = new THREE.Group();
             scene.add(clusterGroupObj);
@@ -129,25 +139,25 @@
                 clusterGroupObj.add(cube);
                 clusters.push(clusterGroupObj);
 
-                console.log(x , y , z)
-                //return clusterGroupObj;
+                console.log(x, y, z)
+                    //return clusterGroupObj;
             }
         }
 
         // requires a Mesh and 2 Vector3 objects ( $ new THREE.Vector3(x , y , z); )
-        function randomizePosition(obj , minVector3 , maxVector3){
-            const randomInRange = (min = 1 , max = 1)=>{
+        function randomizePosition(obj, minVector3, maxVector3) {
+            const randomInRange = (min = 1, max = 1) => {
                 return Math.floor(Math.random() * max) + min
             }
 
             obj.position = (
-                randomInRange(minVector3.x , maxVector3.x),
-                randomInRange(minVector3.y , minVector3.y),
-                randomInRange(minVector3.z , maxVector3.z)
+                randomInRange(minVector3.x, maxVector3.x),
+                randomInRange(minVector3.y, minVector3.y),
+                randomInRange(minVector3.z, maxVector3.z)
             )
         }
 
-        function randomizeScale(obj , min , max){
+        function randomizeScale(obj, min, max) {
 
         }
 
@@ -155,8 +165,8 @@
         //#endregion
 
         function generateBackground() {
-            for(let i = 0; i < clusterCount; i++){
-                 generateCluster();
+            for (let i = 0; i < clusterCount; i++) {
+                generateCluster();
             }
 
             //TODO: randomize positions
