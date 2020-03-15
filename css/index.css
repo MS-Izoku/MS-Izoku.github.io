@@ -20,6 +20,7 @@ canvas{
 
 main{
     margin: 2%;
+    background: red;
 }
 
 header{
@@ -53,4 +54,14 @@ footer div{
     width: 100%;;
     /*margin: auto;*/
     display: flex;
+}
+
+
+.arrow-down{
+    display: flex;
+    justify-content: center;
+    min-width: 100%;
+    width: 100%;
+    bottom: 10%;
+    position: absolute;
 }
