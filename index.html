@@ -35,7 +35,7 @@
         </header>
 
         <div class="arrow-down">
-           <i class="fas fa-angle-double-down fa-3x"></i>
+            <i class="fas fa-angle-double-down fa-3x"></i>
         </div>
 
         <div id="landing-grid">
@@ -112,64 +112,44 @@
         const pointLight = new THREE.PointLight(0x404040);
         pointLight.position.set(50, 50, 50);
         scene.add(pointLight);
+
+        const directionalLight = new THREE.DirectionalLight({
+            color: "white",
+            intensity: 1
+        });
+        scene.add(directionalLight);
+        console.log(directionalLight)
         //#endregion
 
         //#region Mesh Generators
-        function generateCluster() {
-            const material = new THREE.MeshLambertMaterial({
-                color: 0x888888
-            });
+        const cubeMaterial = new THREE.MeshLambertMaterial({
+            color: "rgb(155 , 155  , 155)"
+        })
 
-            let clusterGroupObj = new THREE.Group();
-            scene.add(clusterGroupObj);
-
-            let clusterRange = randomInt(clusterMaxCount);
-            if (clusterRange > clusterMinCount) clusterRange = clusterMinCount;
-
-            for (let j = 0; j < clusterRange; j++) {
-                let clusterRange = randomInt(clusterMaxCount);
-                if (clusterRange > clusterMinCount) clusterRange = clusterMinCount;
-                const x = Math.random(1, 20);
-                const y = Math.random(1, 20);
-                const z = Math.random(1, 20);
-
-                const geometry = new THREE.BoxGeometry(x, y, z);
-                const cube = new THREE.Mesh(geometry, material);
-                scene.add(cube);
-                clusterGroupObj.add(cube);
-                clusters.push(clusterGroupObj);
-
-                console.log(x, y, z)
-                    //return clusterGroupObj;
-            }
+        function generateCube(sizeX, sizeY, sizeZ) {
+            const cubeGeometry = new THREE.BoxGeometry(sizeX, sizeY, sizeZ);
+            const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+            scene.add(cube);
+            console.log(cube);
+            return cube;
         }
-
-        // requires a Mesh and 2 Vector3 objects ( $ new THREE.Vector3(x , y , z); )
-        function randomizePosition(obj, minVector3, maxVector3) {
-            const randomInRange = (min = 1, max = 1) => {
-                return Math.floor(Math.random() * max) + min
-            }
-
-            obj.position = (
-                randomInRange(minVector3.x, maxVector3.x),
-                randomInRange(minVector3.y, minVector3.y),
-                randomInRange(minVector3.z, maxVector3.z)
-            )
-        }
-
-        function randomizeScale(obj, min, max) {
-
-        }
-
-
         //#endregion
 
         function generateBackground() {
-            for (let i = 0; i < clusterCount; i++) {
-                generateCluster();
-            }
+            const cluster1 = () => {
+                const baseZ = 5;
+                const cube1 = generateCube(1.5, 1.75, 2);
+                cube1.position.set(-1.5, 1, 1);
 
-            //TODO: randomize positions
+                const cube2 = generateCube(2, 2.25, 2.5);
+                cube2.position.set(-0.75, 0, 0.5);
+
+                const cube3 = generateCube(2, 2, 2)
+                cube3.position.set(-1.25, 0.5, 0.5)
+
+
+            }
+            cluster1();
         }
         generateBackground();
 
