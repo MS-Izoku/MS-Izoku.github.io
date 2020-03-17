@@ -91,7 +91,7 @@
         });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
-        renderer.setClearColor("rgb(20 , 20 , 20)")
+        renderer.setClearColor("rgb(250 , 250 , 250)")
 
         window.addEventListener("resize", (event) => {
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -118,8 +118,8 @@
 
         //TODO: Adjust angles
         scene.add(directionalLight);
-        const directionalTarget = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshPhongMaterial("#ffffff"));
-        scene.add(directionalTarget);
+        // const directionalTarget = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshPhongMaterial("#ffffff"));
+        // scene.add(directionalTarget);
         //#endregion
 
         //#region Mesh Generators
@@ -128,7 +128,6 @@
         })
 
         function generateCube(size, position, group = null) {
-            console.log(size, position)
             const cubeGeometry = new THREE.BoxGeometry(size.x, size.y, size.z);
             const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
             scene.add(cube);
@@ -151,22 +150,83 @@
                 const cube6 = generateCube(new THREE.Vector3(2, 3, 1), new THREE.Vector3(-1., -0.5, 0.5), group);
                 const cube7 = generateCube(new THREE.Vector3(1, 1, 1), new THREE.Vector3(-1, -1.75, 0), group);
 
-                group.position.set(-5.5, 2, -1);
+                group.position.set(-5.5, 1.75, -1);
                 return group;
             }
 
             const cluster2 = () => {
                 const group = new THREE.Group();
                 scene.add(group);
-                const cube1 = generateCube(new THREE.Vector3(3, 3, 3), new THREE.Vector3(0, 0, 0), group);
-                const cube2 = generateCube(new THREE.Vector3(1, 1, 1), new THREE.Vector3(-1, -1.75, 0), group);
-
-                group.position.set(4, 0, -1);
+                const cube1 = generateCube(new THREE.Vector3(2.5, 2, 3), new THREE.Vector3(0.5, 0.5, 0), group);
+                const cube2 = generateCube(new THREE.Vector3(1.5, 1.5, 1.5), new THREE.Vector3(0.25, -0.25, 0.5), group);
+                const cube3 = generateCube(new THREE.Vector3(3, 2, 0), new THREE.Vector3(0, -1, 0), group);
+                const cube4 = generateCube(new THREE.Vector3(2, 3, 2), new THREE.Vector3(-1, -0.25, 0), group);
+                group.position.set(5.5, 2, -1);
                 return group
             }
 
-            cluster1();
+            const cluster3 = () => {
+                const group = new THREE.Group();
+                scene.add(group);
+                const cube1 = generateCube(new THREE.Vector3(1.5, 2.25, 1.5), new THREE.Vector3(0, 0, 0), group);
+                const cube2 = generateCube(new THREE.Vector3(1, 2, 1), new THREE.Vector3(-0.5, -.5, 0.5), group);
+                const cube3 = generateCube(new THREE.Vector3(1, 1, 1), new THREE.Vector3(0, -1.5, -0.25), group);
+                const cube4 = generateCube(new THREE.Vector3(1.5, 2, 1), new THREE.Vector3(0.5, -0.5, 0), group);
+                const cube5 = generateCube(new THREE.Vector3(1, 0.5, 0.5), new THREE.Vector3(0, -1, 0.5), group);
+                const cube6 = generateCube(new THREE.Vector3(1, 1, 1), new THREE.Vector3(0, 0, 0), group);
+                group.position.set(2.5, 3, -5);
+                return group
+            }
+
+
+            // Non-Proceedural Cluster Generation Template
+            // const cluster3 = () =>{
+            //     const group = new THREE.Group();
+            //     scene.add(group);
+            //     const cube1 = generateCube(new THREE.Vector3(1, 1, 1), new THREE.Vector3(0, 0, 0), group);
+            //     const cube2 = generateCube(new THREE.Vector3(1, 1, 1), new THREE.Vector3(0, 0, 0), group);
+            //     const cube3 = generateCube(new THREE.Vector3(1, 1, 1), new THREE.Vector3(0, 0, 0), group);
+            //     const cube4 = generateCube(new THREE.Vector3(1, 1, 1), new THREE.Vector3(0, 0, 0), group);
+            //     group.position.set(0, 0, 0);
+            //     return group
+            // }
+
+
+            const plane = (function() {
+                const planeGeometry = new THREE.PlaneGeometry(30, 4);
+                const planeMaterial = new THREE.MeshLambertMaterial({
+                    color: "rgb(255 , 255 , 255)"
+                })
+                const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial)
+                scene.add(planeMesh);
+                planeGeometry.lookAt(new THREE.Vector3(0, 1, 0))
+                planeMesh.position.set(0, -3, 0)
+                return planeMesh
+            }())
+
+            const generateWalls = (function() {
+                const wallGroup = new THREE.Group();
+                scene.add(wallGroup);
+                const boundary = () => window.innerWidth / window.innerHeight * 50;
+                const depth = () => -window.innerWidth / window.innerHeight * 35;
+                const height = () => window.innerWidth / window.innerHeight * 10;
+
+                const wallGeometry = new THREE.BoxGeometry(180, 50, 30);
+                const wall = () => {
+                    const wallMesh = new THREE.Mesh(wallGeometry, cubeMaterial)
+                    scene.add(wallMesh);
+                    wallGroup.add(wallMesh);
+                    return wallMesh;
+                }
+                
+                const backWall = wall();
+                backWall.position.set(0 , 15 , -50);
+                
+            }())
+
+            cluster1().scale.set(1 , 1.5 , 1);
             cluster2();
+            cluster3();
         }
         generateBackground();
 
