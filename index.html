@@ -81,6 +81,7 @@
             1000 // outer camera plane
         );
         camera.position.z = 5;
+        console.dir(camera);
         //#endregion
 
 
@@ -106,57 +107,72 @@
 
 
         //#region Lighting
-        const ambient = new THREE.AmbientLight(0x404040);
-        scene.add(ambient);
-
         const pointLight = new THREE.PointLight(0x404040);
-        pointLight.position.set(50, 50, 50);
+        pointLight.position.set(1, 1, 3);
         scene.add(pointLight);
 
         const directionalLight = new THREE.DirectionalLight({
-            color: "white",
+            color: "FFFFFF",
             intensity: 1
         });
+
+        //TODO: Adjust angles
         scene.add(directionalLight);
-        console.log(directionalLight)
+        const directionalTarget = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshPhongMaterial("#ffffff"));
+        scene.add(directionalTarget);
         //#endregion
 
         //#region Mesh Generators
-        const cubeMaterial = new THREE.MeshLambertMaterial({
-            color: "rgb(155 , 155  , 155)"
+        const cubeMaterial = new THREE.MeshPhongMaterial({
+            color: "#ffffff"
         })
 
-        function generateCube(sizeX, sizeY, sizeZ) {
-            const cubeGeometry = new THREE.BoxGeometry(sizeX, sizeY, sizeZ);
+        function generateCube(size, position, group = null) {
+            console.log(size, position)
+            const cubeGeometry = new THREE.BoxGeometry(size.x, size.y, size.z);
             const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
             scene.add(cube);
-            console.log(cube);
+            cube.position.set(position.x, position.y, position.z);
+            if (group != null) group.add(cube);
             return cube;
         }
         //#endregion
 
         function generateBackground() {
+
             const cluster1 = () => {
-                const baseZ = 5;
-                const cube1 = generateCube(1.5, 1.75, 2);
-                cube1.position.set(-1.5, 1, 1);
+                const group = new THREE.Group();
+                scene.add(group);
+                const cube1 = generateCube(new THREE.Vector3(2, 2.25, 2), new THREE.Vector3(-0.25, 0, 0.5), group);
+                const cube2 = generateCube(new THREE.Vector3(2, 2.5, 2.5), new THREE.Vector3(0, -0.5, 0), group);
+                const cube3 = generateCube(new THREE.Vector3(1.75, 1, 1), new THREE.Vector3(0, -2, 0), group);
+                const cube4 = generateCube(new THREE.Vector3(3, 2, 0), new THREE.Vector3(0.5, 0, 0.25), group);
+                const cube5 = generateCube(new THREE.Vector3(1.5, 1.5, 1.5), new THREE.Vector3(0.75, -1.5, -0.5), group);
+                const cube6 = generateCube(new THREE.Vector3(2, 3, 1), new THREE.Vector3(-1., -0.5, 0.5), group);
+                const cube7 = generateCube(new THREE.Vector3(1, 1, 1), new THREE.Vector3(-1, -1.75, 0), group);
 
-                const cube2 = generateCube(2, 2.25, 2.5);
-                cube2.position.set(-0.75, 0, 0.5);
-
-                const cube3 = generateCube(2, 2, 2)
-                cube3.position.set(-1.25, 0.5, 0.5)
-
-
+                group.position.set(-5.5, 2, -1);
+                return group;
             }
+
+            const cluster2 = () => {
+                const group = new THREE.Group();
+                scene.add(group);
+                const cube1 = generateCube(new THREE.Vector3(3, 3, 3), new THREE.Vector3(0, 0, 0), group);
+                const cube2 = generateCube(new THREE.Vector3(1, 1, 1), new THREE.Vector3(-1, -1.75, 0), group);
+
+                group.position.set(4, 0, -1);
+                return group
+            }
+
             cluster1();
+            cluster2();
         }
         generateBackground();
 
 
 
         const update = () => {}
-
         const realTimeLoop = () => {
             requestAnimationFrame(realTimeLoop);
             update();
