@@ -1,3 +1,8 @@
+//#region DOM
+
+//#endregion
+
+//#region THREE.js Handling
 //#region scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -244,3 +249,5 @@ const realTimeLoop = () => {
 };
 
 realTimeLoop();
+
+//#endregion
