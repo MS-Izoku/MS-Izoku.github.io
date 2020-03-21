@@ -68,7 +68,9 @@ box-shadow:0px 0px 5px 10px var(--fade-color) ;
 }
 
 #home-tab {
-    background: red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 header button#home-tab p {
@@ -121,7 +123,6 @@ footer div {
 .page{
     display: flex;
     flex-direction: row;
-    /*justify-content: center;*/
     height: 75%;
 }
 
