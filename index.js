@@ -1,4 +1,30 @@
 //#region DOM
+const root = document.getElementById("root");
+const welcomePage = document.getElementById("welcome");
+const contactPage = document.getElementById("contact");
+const aboutMePage = document.getElementById("about-me");
+const projectsPage = document.getElementById("projects");
+const resumePage = document.getElementById("resume");
+
+let currentPage;
+
+const swapPage = pageElement => {
+  document.removeChild(currentPage);
+  root.appendChild(pageElement);
+  currentPage = pageElement;
+  return currentPage;
+};
+
+const welcomeTab = document.getElementById("");
+
+document.addEventListener("DOMContentLoaded", () => {
+  const startUp = (function() {
+    root.removeChild(contactPage);
+    root.removeChild(aboutMePage);
+    root.removeChild(projectsPage);
+    root.removeChild(resumePage);
+  })();
+});
 
 //#endregion
 
