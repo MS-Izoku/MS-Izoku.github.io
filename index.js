@@ -1,28 +1,69 @@
 //#region DOM
+const pageState = {
+  activePage: "welcome"
+};
+
 const root = document.getElementById("root");
 const welcomePage = document.getElementById("welcome");
 const contactPage = document.getElementById("contact");
-const aboutMePage = document.getElementById("about-me");
 const projectsPage = document.getElementById("projects");
 const resumePage = document.getElementById("resume");
+const bioPage = document.getElementById("bio");
+
+const homeTab = document.getElementById("home-tab");
+const contactTab = document.getElementById("contact-tab");
+const resumeTab = document.getElementById("resume-tab");
+const bioTab = document.getElementById("bio-tab");
+const projectsTab = document.getElementById("projects-tab");
 
 let currentPage;
 
 const swapPage = pageElement => {
-  document.removeChild(currentPage);
-  root.appendChild(pageElement);
+  if(pageElement === currentPage) return;
+  console.log("Moving To New Page", pageElement.id);
+  // root.removeChild(currentPage);
+  // root.appendChild(pageElement);
+  currentPage.style.display = "none";
+  pageElement.style.display = "";
+
   currentPage = pageElement;
   return currentPage;
 };
 
-const welcomeTab = document.getElementById("");
 
 document.addEventListener("DOMContentLoaded", () => {
+  currentPage = welcomePage;
   const startUp = (function() {
-    root.removeChild(contactPage);
-    root.removeChild(aboutMePage);
-    root.removeChild(projectsPage);
-    root.removeChild(resumePage);
+    const shutOffPages = (function(){
+      console.log("shutting off")
+      bioPage.style.display = "none";
+      resumePage.style.display = "none";
+      projectsPage.style.display = "none";
+      contactPage.style.display = "none";
+
+    }())
+
+    //#region button setup
+    homeTab.addEventListener("click", () => {
+      swapPage(welcomePage);
+    });
+
+    contactTab.addEventListener("click", () => {
+      swapPage(contactPage);
+    });
+
+    resumeTab.addEventListener("click", () => {
+      swapPage(resumePage);
+    });
+
+    bioTab.addEventListener("click", () => {
+      swapPage(bioPage);
+    });
+
+    projectsTab.addEventListener("click" , ()=>{
+      swapPage(projectsPage);
+    })
+    //#endregion
   })();
 });
 
@@ -31,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //#region THREE.js Handling
 //#region scene setup
 const scene = new THREE.Scene();
+const fog = new THREE.Fog("rgb(255 , 255 , 255)", 10, 1000);
 const camera = new THREE.PerspectiveCamera(
   75, // FoV
   window.innerWidth / window.innerHeight, // aspect ratio
@@ -61,6 +103,15 @@ const render = () => {
 //#endregion
 
 //#region Lighting
+//#region Godrays
+const godray = () => {
+  const shape = new THREE.CircleGeometry(200, 50);
+  const mat = new THREE.MeshBasicMaterial({ color: "rgb(255 , 0 , 0)" });
+  const mesh = new THREE.Mesh(shape, mat);
+};
+
+//#endregion
+
 //#region Directional Light Setup
 const directionalLight = new THREE.DirectionalLight({
   color: "rgb(255 , 255 , 255)",
@@ -69,15 +120,15 @@ const directionalLight = new THREE.DirectionalLight({
 scene.add(directionalLight);
 scene.add(directionalLight.target);
 directionalLight.target.position.set(-4, -1.5, -3);
-//#endregion
+// //#endregion
 
-//#region Ambient Light Setup
-const ambientLight = new THREE.AmbientLight("rgba(255 , 255 , 255 )", 0.1);
-scene.add(ambientLight);
-//#endregion
+// //#region Ambient Light Setup
+// const ambientLight = new THREE.AmbientLight("rgba(255 , 255 , 255 )", 0.1);
+// scene.add(ambientLight);
+// //#endregion
 
 //#region SkyLight Setup (HemisphereLight)
-var skyLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 0.3);
+var skyLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 0.1);
 scene.add(skyLight);
 //#endregion
 

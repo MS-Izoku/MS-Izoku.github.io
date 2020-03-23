@@ -5,7 +5,7 @@ body {
   height: 100vh;
   --font-color: rgb(255, 255, 255);
   --link-color: rgb(255, 255, 255);
-  --panel-overlay-color: rgba(155 , 155 , 155 , 0.9);
+  --panel-overlay-color: rgba(155, 155, 155, 0.9);
   --archivo: "Archivo", sans-serif;
   --audioWide: "Audiowide", cursive;
   --gugi: "Gugi", cursive;
@@ -15,6 +15,7 @@ body {
 
 canvas {
   display: block;
+  height: 100%;
 }
 
 #root {
@@ -31,13 +32,34 @@ main {
   background: red;
 }
 
-/*#region Header */ 
-header {
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
+/*#region Header */
+/*header {
   display: flex;
   justify-content: space-around;
   --color: rgba(25, 25, 25, 0.33);
   background: var(--color);
   box-shadow: 0px 5px 2px var(--color);
+}*/
+
+#sticky-header {
+  --color: rgba(25, 25, 25, 0.33);
+  box-shadow: 0px 5px 2px var(--color);
+  background: var(--color);
+  
+  display: flex;
+  justify-content: space-around;
+
+  position: -webkit-fixed;
+  position: fixed;
+  width: 100%;
+  top: 0;
+
+
 }
 
 header button {
@@ -57,20 +79,20 @@ header button p {
 
 header button:hover {
   color: white;
-  --fade-color: rgba(0 , 0 , 0 , 0.5);
+  --fade-color: rgba(0, 0, 0, 0.5);
   background-color: var(--fade-color);
 
--webkit-box-shadow:0px 0px 5px 10px var(--fade-color) ;
--moz-box-shadow:0px 0px 5px 10px var(--fade-color) ;
-box-shadow:0px 0px 5px 10px var(--fade-color) ;
+  -webkit-box-shadow: 0px 0px 5px 10px var(--fade-color);
+  -moz-box-shadow: 0px 0px 5px 10px var(--fade-color);
+  box-shadow: 0px 0px 5px 10px var(--fade-color);
 
   transition: background 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
 }
 
 #home-tab {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 header button#home-tab p {
@@ -104,7 +126,6 @@ footer div {
   display: flex;
 }
 
-
 .arrow-down {
   display: flex;
   justify-content: center;
@@ -114,27 +135,46 @@ footer div {
   position: absolute;
 }
 
-/*#noise-overlay{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}*/
-
-.page{
-    display: flex;
-    flex-direction: row;
-    height: 75%;
+.screen-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
-#landing-splash{
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    background: var(--panel-overlay-color);
-    border-radius: 0.25em;
-    margin: auto;
-    padding: 1%;
-    padding-top: 5%;
-    padding-bottom: 5%;
-    width: 50%;
+.page {
+  display: flex;
+  flex-direction: row;
+  overflow: scroll;
+  height: 75%;
 }
+
+#landing-splash {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  background: var(--panel-overlay-color);
+  border-radius: 0.25em;
+  margin: auto;
+  padding: 1%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  width: 50%;
+}
+
+/*#region Identifiers */
+#contact{
+  background: red;
+}
+
+#projects{
+  background: blue;
+}
+
+#resume{
+  background: yellow;
+}
+
+#about-me{
+  background: green;
+}
+/*#endregion */
