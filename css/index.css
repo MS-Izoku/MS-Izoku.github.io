@@ -25,6 +25,8 @@ canvas {
   min-height: 100%;
   min-width: 100%;
   color: var(--font-color);
+  display: flex;
+  flex-direction: column;
 }
 
 main {
@@ -33,8 +35,8 @@ main {
 }
 
 ::-webkit-scrollbar {
-    width: 0px;
-    background: transparent; /* make scrollbar transparent */
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
 }
 
 /*#region Header */
@@ -50,7 +52,7 @@ main {
   --color: rgba(25, 25, 25, 0.33);
   box-shadow: 0px 5px 2px var(--color);
   background: var(--color);
-  
+
   display: flex;
   justify-content: space-around;
 
@@ -58,8 +60,6 @@ main {
   position: fixed;
   width: 100%;
   top: 0;
-
-
 }
 
 header button {
@@ -115,6 +115,9 @@ footer {
 
   position: absolute;
   bottom: 0;
+  --padding: 12px;
+  padding-top: var(--padding);
+  padding-bottom: var(--padding);
 
   display: flex;
   justify-content: space-between;
@@ -122,8 +125,24 @@ footer {
 
 footer div {
   width: 100%;
-  /*margin: auto;*/
   display: flex;
+}
+
+footer div#social {
+  display: flex;
+  flex-direction: column;
+}
+
+footer div#social .wrapper {
+  margin: auto;
+  margin-left: 5%;
+  width: 33%;
+  display: flex;
+  justify-content: space-between;
+}
+
+footer #social i {
+  color: white;
 }
 
 .arrow-down {
@@ -146,6 +165,7 @@ footer div {
   flex-direction: row;
   overflow: scroll;
   height: 75%;
+  padding-top: 80px;
 }
 
 #landing-splash {
@@ -161,20 +181,25 @@ footer div {
   width: 50%;
 }
 
-/*#region Identifiers */
-#contact{
-  background: red;
+/*#region Contact Info Page */
+#contact div {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
 }
 
-#projects{
-  background: blue;
+
+/*#endregion */
+
+/*#region Reusables*/
+.centered {
+  margin: auto;
 }
 
-#resume{
-  background: yellow;
-}
-
-#about-me{
-  background: green;
+.panel {
+  border-radius: 0.25em;
+  background: var(--panel-overlay-color);
+  padding: 1%;
 }
 /*#endregion */

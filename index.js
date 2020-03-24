@@ -20,9 +20,6 @@ let currentPage;
 
 const swapPage = pageElement => {
   if(pageElement === currentPage) return;
-  console.log("Moving To New Page", pageElement.id);
-  // root.removeChild(currentPage);
-  // root.appendChild(pageElement);
   currentPage.style.display = "none";
   pageElement.style.display = "";
 
@@ -35,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
   currentPage = welcomePage;
   const startUp = (function() {
     const shutOffPages = (function(){
-      console.log("shutting off")
       bioPage.style.display = "none";
       resumePage.style.display = "none";
       projectsPage.style.display = "none";
@@ -64,6 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
       swapPage(projectsPage);
     })
     //#endregion
+
+    
   })();
 });
 
