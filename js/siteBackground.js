@@ -28,6 +28,22 @@ window.addEventListener("resize", event => {
 
   camera.updateProjectionMatrix(); // needs to be run on resize
 });
+//#endregion
+
+//#region Material Imports
+const materialPath = "../media/Materials/cubism/Cubism_";
+const m_cubism = new THREE.MeshStandardMaterial({
+  map: new THREE.TextureLoader().load(materialPath + "basecolor.png"), // base color
+  displacement: new THREE.TextureLoader().load(materialPath + "height.png"), // height
+  emissiveMap: new THREE.TextureLoader().load(materialPath + "emissive.png"),
+  normalMap: new THREE.TextureLoader().load(materialPath + "normal.png"),
+  roughnessMap: new THREE.TextureLoader().load(materialPath + "roughness.png"),
+
+  normalScale: new THREE.Vector2(3, 3),
+  roughness: 1,
+  emissive: "rgb(255 , 255 , 255)",
+  emissiveIntensity: 0.1
+});
 
 //#endregion
 
@@ -44,8 +60,18 @@ let smaaEffect = new POSTPROCESSING.SMAAEffect(searchImage, areaImage, 1);
 //#endregion
 
 //#region Lighting
+
+const bloom = (function() {
+  const effectPass = new POSTPROCESSING.EffectPass(
+    camera,
+    new POSTPROCESSING.BloomEffect()
+  );
+  effectPass.renderToScreen = true;
+  composer.addPass(effectPass);
+  return effectPass;
+})();
 //#region Godrays
-const godray = (position, mesh = null , options = {}) => {
+const godray = (position, mesh = null, options = {}) => {
   const shape = new THREE.PlaneGeometry(1950, 1050);
   const mat = new THREE.MeshBasicMaterial({ color: "rgb(255 , 255 , 255)" }); // Light Color
   mesh = mesh ? mesh : new THREE.Mesh(shape, mat);
@@ -57,19 +83,31 @@ const godray = (position, mesh = null , options = {}) => {
     resolutionScale: options.resolutionScale ? options.resolutionScale : 1,
     density: options.density ? options.density : 0.2,
     decay: options.decay ? options.decay : 0.95,
-    weight: options.weight ? options.weight :  0.1,
+    weight: options.weight ? options.weight : 0.1,
     samples: options.samples ? options.samples : 100
   });
+
   return godRayEffect;
 };
 
-const godray1 = new POSTPROCESSING.EffectPass(
-  camera,
-  smaaEffect,
-  godray(new THREE.Vector3(0, 250, -950))
-);
+// const createGodray = (position , mesh = null , options = {}) =>{
+//     const newGodray = godray(position, mesh , options)
+//     const effectPass = new POSTPROCESSING.EffectPass(camera , smaaEffect , newGodray)
+//     composer.addPass(effectPass)
+//     // return {
+//     //     object: newGodray,
+//     //     effectPass: effectPass,
+//     // }
+// }
 
- composer.addPass(godray1);
+// const godray1 = new POSTPROCESSING.EffectPass(
+//   camera,
+//   smaaEffect,
+//   godray(new THREE.Vector3(0, 250, -950))
+// );
+
+//const godray1 = createGodray(new THREE.Vector3(0 , 250 , -950))
+//composer.addPass(godray1);
 //#endregion
 
 //#region Directional Light Setup
@@ -88,9 +126,11 @@ scene.add(ambientLight);
 //#endregion
 
 //#region Mesh Generators
-const cubeMaterial = new THREE.MeshPhongMaterial({
-  color: "rgb(255 , 255 , 255)"
-});
+// const cubeMaterial = new THREE.MeshPhongMaterial({
+//   color: "rgb(255 , 255 , 255)"
+// });
+
+const cubeMaterial = m_cubism;
 
 function generateCube(size, position, group = null) {
   const cubeGeometry = new THREE.BoxGeometry(size.x, size.y, size.z);
@@ -102,7 +142,7 @@ function generateCube(size, position, group = null) {
 }
 //#endregion
 
-function generateBackground() {
+const generateBackground = (function() {
   //#region Cube-Cluster Objects
   const cluster1 = () => {
     const group = new THREE.Group();
@@ -250,9 +290,7 @@ function generateBackground() {
   cluster1().scale.set(1.1, 1.5, 1);
   cluster2().scale.set(0.9, 1.5, 1);
   cluster3();
-}
-
-generateBackground();
+})();
 
 const render = () => {
   //renderer.render(scene, camera); // w/o postprocessing
