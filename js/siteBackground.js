@@ -2,7 +2,7 @@
 let composer; // set up here due t rendering issues
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2("rgb(255 , 250 , 235)", 0.001);
+scene.fog = new THREE.FogExp2("rgb(255 , 250 , 235)", 0.05);
 
 const camera = new THREE.PerspectiveCamera(
   75, // FoV
@@ -15,7 +15,7 @@ camera.position.z = 5;
 
 //#region renderer setup
 const renderer = new THREE.WebGLRenderer({
-  antialias: true
+  antialias: false
 });
 
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -38,11 +38,16 @@ const m_cubism = new THREE.MeshStandardMaterial({
   emissiveMap: new THREE.TextureLoader().load(materialPath + "emissive.png"),
   normalMap: new THREE.TextureLoader().load(materialPath + "normal.png"),
   roughnessMap: new THREE.TextureLoader().load(materialPath + "roughness.png"),
+  metalnessMap: new THREE.TextureLoader().load(materialPath + "metallic.png"), // metallic
 
+  displacementScale: 1,
   normalScale: new THREE.Vector2(3, 3),
-  roughness: 1,
-  emissive: "rgb(255 , 255 , 255)",
-  emissiveIntensity: 0.1
+  roughness: 0.25,
+
+  metalness: 0,
+
+  emissive: "rgb(255 , 255 , 0)",
+  emissiveIntensity: 0.01
 });
 
 //#endregion
@@ -57,11 +62,9 @@ areaImage.src = POSTPROCESSING.SMAAEffect.areaImageDataURL;
 let searchImage = new Image();
 searchImage.src = POSTPROCESSING.SMAAEffect.searchImageDataURL;
 let smaaEffect = new POSTPROCESSING.SMAAEffect(searchImage, areaImage, 1);
-//#endregion
 
-//#region Lighting
-
-const bloom = (function() {
+//#region PostProcessing Effect Chain (executed in order)
+const bloom = () => {
   const effectPass = new POSTPROCESSING.EffectPass(
     camera,
     new POSTPROCESSING.BloomEffect()
@@ -69,7 +72,20 @@ const bloom = (function() {
   effectPass.renderToScreen = true;
   composer.addPass(effectPass);
   return effectPass;
-})();
+};
+bloom();
+
+
+//#endregion
+
+//#endregion
+
+//#region Lighting
+
+
+
+
+
 //#region Godrays
 const godray = (position, mesh = null, options = {}) => {
   const shape = new THREE.PlaneGeometry(1950, 1050);
