@@ -1,5 +1,7 @@
 let composer, scene, camera, renderer;
-const backgroundColor = "rgb(225 , 225 , 225)";
+let directionalLight;
+
+const backgroundColor = "rgb(25 , 25 , 25)";
 
 // used for initialization
 const init = () => {
@@ -37,36 +39,71 @@ const init = () => {
   // POSTPROCESSING setup
   composer = new POSTPROCESSING.EffectComposer(renderer);
   composer.addPass(new POSTPROCESSING.RenderPass(scene, camera));
+  generateGeometry();
+  generateLighting();
 };
 
-const generateFractal = (mesh, count, startScale, endScale) => {
-  let xCalc, yClalc, zCalc; // used to calculate position and scale
+const generateLighting = () => {
+  directionalLight = new THREE.DirectionalLight("rgb(255 , 255 , 255)", 1);
+  directionalLight.position.set(0, 0, 1);
+  scene.add(directionalLight);
+};
+
+const generateFractal = (
+  mesh,
+  count,
+  startPos,
+  endPos,
+  startScale,
+  endScale
+) => {
+  const getAverage = (x, y) => (x + y) / 2;
+
   const scaler = new THREE.Vector3(
-    startScale.x / endScale.x / count,
-    startScale.y / endScale.y / count,
-    startScale.z / endScale.z / count
+    getAverage(startScale.x, endScale.x) / count,
+    getAverage(startScale.y, endScale.y) / count,
+    getAverage(startScale.z, endScale.z) / count
   );
-  for (let i = 1; i < count; i++) {
-    const newMesh = mesh;
-    scene.add(newMesh);
-    mesh.scale.x = scaler.x * i;
-    mesh.scale.y = scaler.y * i;
-    mesh.scale.z = scaler.z * i;
+
+  const transformLerp = new THREE.Vector3(
+    getAverage(startPos.x, endPos.x) / count,
+    getAverage(startPos.y, endPos.y) / count,
+    getAverage(startPos.z, endPos.z) / count
+  );
+  for (let i = 0; i < count; i++) {
+    let instance = new THREE.Mesh(mesh.geometry, mesh.material);
+
+    instance.scale.set(
+      scaler.x * (i + 1),
+      scaler.y * (i + 1),
+      scaler.z * (i + 1)
+    );
+    instance.position.set(
+      transformLerp.x * i,
+      transformLerp.y * i,
+      -1 //  transformLerp.z * i - 1
+    );
+    console.log(instance.position);
+    scene.add(instance);
   }
 };
 
 // generate scene geometry after startup
 const generateGeometry = () => {
+  console.log("generating geometry");
+  const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+  const boxMaterial = new THREE.MeshLambertMaterial({
+    color: "rgb(255 , 255 , 0)"
+  });
+  const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+
   generateFractal(
-    new THREE.Mesh(
-      new THREE.BoxGeometry(3, 3, 3),
-      new MeshLambertMaterial({
-        color: "rgb(255 , 255 , 255)"
-      })
-    ),
-    5,
+    boxMesh,
+    7,
+    new THREE.Vector3(0, 5, 0),
+    new THREE.Vector3(0, -5, 0),
     new THREE.Vector3(1, 1, 1),
-    new THREE.Vector3(2, 2, 2)
+    new THREE.Vector3(1, 1, 1)
   );
 };
 
@@ -77,5 +114,5 @@ const updateLoop = () => {
 };
 
 init();
-generateGeometry();
+
 updateLoop();
