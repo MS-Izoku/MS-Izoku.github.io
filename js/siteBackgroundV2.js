@@ -19,7 +19,7 @@ const init = () => {
 
   // renderer setup
   renderer = new THREE.WebGLRenderer({
-    antialias: false
+    antialias: true
   });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
@@ -38,14 +38,37 @@ const init = () => {
 
   // POSTPROCESSING setup
   composer = new POSTPROCESSING.EffectComposer(renderer);
-  composer.addPass(new POSTPROCESSING.RenderPass(scene, camera));
+  const renderPass = new POSTPROCESSING.RenderPass(scene, camera)
+  composer.addPass(renderPass);
+  renderPass.renderToScreen = true;
+
+
+ const bloom = (() => {
+   const bloomPass = new POSTPROCESSING.BloomEffect()
+   bloomPass.blurEffect = new POSTPROCESSING.BlurPass({
+     camera: camera
+   });
+   
+  const effectPass = new POSTPROCESSING.EffectPass(
+    camera,
+    bloomPass,
+  );
+  effectPass.renderToScreen = true;
+  composer.addPass(effectPass);
+  return effectPass;
+})
+
+console.log(bloom().effects[0].blurPass)
+
+
+  // scene generation
   generateGeometry();
   generateLighting();
 };
 
 const generateLighting = () => {
   directionalLight = new THREE.DirectionalLight("rgb(255 , 255 , 255)", 1);
-  directionalLight.position.set(0, 0, 1);
+  directionalLight.position.set(0, 3, 1);
   scene.add(directionalLight);
 };
 
@@ -97,14 +120,17 @@ const generateGeometry = () => {
   });
   const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
 
-  generateFractal(
-    boxMesh,
-    7,
-    new THREE.Vector3(0, 5, 0),
-    new THREE.Vector3(0, -5, 0),
-    new THREE.Vector3(1, 1, 1),
-    new THREE.Vector3(1, 1, 1)
-  );
+  scene.add(boxMesh);
+  boxMesh.position.set(0, -2, -5);
+
+  //   generateFractal(
+  //     boxMesh,
+  //     7,
+  //     new THREE.Vector3(0, 5, 0),
+  //     new THREE.Vector3(0, -5, 0),
+  //     new THREE.Vector3(1, 1, 1),
+  //     new THREE.Vector3(1, 1, 1)
+  //   );
 };
 
 const updateLoop = () => {
