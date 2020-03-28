@@ -1,0 +1,23 @@
+{
+  "name": "ms-izoku.github.io",
+  "version": "1.0.0",
+  "description": "Material Design for Bootstrap\r Version: MDB FREE 4.9.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MS-Izoku/MS-Izoku.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MS-Izoku/MS-Izoku.github.io/issues"
+  },
+  "homepage": "https://github.com/MS-Izoku/MS-Izoku.github.io#readme",
+  "dependencies": {
+    "postprocessing": "^6.13.2",
+    "three": "^0.115.0"
+  }
+}
