@@ -72,44 +72,6 @@ const generateLighting = () => {
   scene.add(directionalLight);
 };
 
-const generateFractal = (
-  mesh,
-  count,
-  startPos,
-  endPos,
-  startScale,
-  endScale
-) => {
-  const getAverage = (x, y) => (x + y) / 2;
-
-  const scaler = new THREE.Vector3(
-    getAverage(startScale.x, endScale.x) / count,
-    getAverage(startScale.y, endScale.y) / count,
-    getAverage(startScale.z, endScale.z) / count
-  );
-
-  const transformLerp = new THREE.Vector3(
-    getAverage(startPos.x, endPos.x) / count,
-    getAverage(startPos.y, endPos.y) / count,
-    getAverage(startPos.z, endPos.z) / count
-  );
-  for (let i = 0; i < count; i++) {
-    let instance = new THREE.Mesh(mesh.geometry, mesh.material);
-
-    instance.scale.set(
-      scaler.x * (i + 1),
-      scaler.y * (i + 1),
-      scaler.z * (i + 1)
-    );
-    instance.position.set(
-      transformLerp.x * i,
-      transformLerp.y * i,
-      -1 //  transformLerp.z * i - 1
-    );
-    console.log(instance.position);
-    scene.add(instance);
-  }
-};
 
 // generate scene geometry after startup
 const generateGeometry = () => {
@@ -122,19 +84,10 @@ const generateGeometry = () => {
 
   scene.add(boxMesh);
   boxMesh.position.set(0, -2, -5);
-
-  //   generateFractal(
-  //     boxMesh,
-  //     7,
-  //     new THREE.Vector3(0, 5, 0),
-  //     new THREE.Vector3(0, -5, 0),
-  //     new THREE.Vector3(1, 1, 1),
-  //     new THREE.Vector3(1, 1, 1)
-  //   );
 };
 
 const updateLoop = () => {
-  //renderer.render(scene, camera);
+  //renderer.render(scene, camera); // use for debugging when necessary
   composer.render(0.1);
   requestAnimationFrame(updateLoop);
 };
