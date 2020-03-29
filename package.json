@@ -1,10 +1,11 @@
 {
   "name": "ms-izoku.github.io",
   "version": "1.0.0",
-  "description": "Material Design for Bootstrap\r Version: MDB FREE 4.9.0",
-  "main": "index.js",
+  "description": "Portfolio Site for Martin Spicuzza",
+  "main": "./src/index.js",
   "scripts": {
-    "test": "test"
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --open --mode development"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,11 @@
   "dependencies": {
     "postprocessing": "^6.13.2",
     "three": "^0.115.0"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^4.0.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   }
 }
