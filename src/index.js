@@ -1,3 +1,5 @@
+import { init } from './threeManager.js'
+
 const root = document.getElementById("root");
 const welcomePage = document.getElementById("welcome");
 const contactPage = document.getElementById("contact");
@@ -55,4 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
     //#endregion
   })();
 });
+
+init();
 

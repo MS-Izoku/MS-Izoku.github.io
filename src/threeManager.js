@@ -1,6 +1,5 @@
-const THREE = require("three")
-const POSTPROCESSING = require("postprocessing")
-
+import * as THREE from "../node_modules/three";
+import * as POSTPROCESSING from "../node_modules/postprocessing";
 
 let composer, scene, camera, renderer;
 let objLoader;
@@ -9,7 +8,7 @@ let directionalLight;
 const backgroundColor = "rgb(25 , 25 , 25)";
 
 // used for initialization
-const init = () => {
+export const init = () => {
   // scene setup
   scene = new THREE.Scene();
   scene.background = new THREE.Color(backgroundColor);
@@ -43,30 +42,26 @@ const init = () => {
 
   // POSTPROCESSING setup
   composer = new POSTPROCESSING.EffectComposer(renderer);
-  const renderPass = new POSTPROCESSING.RenderPass(scene, camera)
+  const renderPass = new POSTPROCESSING.RenderPass(scene, camera);
   composer.addPass(renderPass);
   renderPass.renderToScreen = true;
 
+  const bloom = () => {
+    const bloomPass = new POSTPROCESSING.BloomEffect();
+    bloomPass.blurEffect = new POSTPROCESSING.BlurPass({
+      camera: camera
+    });
 
- const bloom = (() => {
-   const bloomPass = new POSTPROCESSING.BloomEffect()
-   bloomPass.blurEffect = new POSTPROCESSING.BlurPass({
-     camera: camera
-   });
-   
-  const effectPass = new POSTPROCESSING.EffectPass(
-    camera,
-    bloomPass,
-  );
-  effectPass.renderToScreen = true;
-  composer.addPass(effectPass);
-  return effectPass;
-})
-
+    const effectPass = new POSTPROCESSING.EffectPass(camera, bloomPass);
+    effectPass.renderToScreen = true;
+    composer.addPass(effectPass);
+  };
 
   // scene generation
   generateGeometry();
   generateLighting();
+
+  updateLoop(); // begin update loop
 };
 
 const generateLighting = () => {
@@ -74,7 +69,6 @@ const generateLighting = () => {
   directionalLight.position.set(0, 3, 1);
   scene.add(directionalLight);
 };
-
 
 // generate scene geometry after startup
 const generateGeometry = () => {
@@ -95,6 +89,4 @@ const updateLoop = () => {
   requestAnimationFrame(updateLoop);
 };
 
-init();
-
-updateLoop();
+//init();

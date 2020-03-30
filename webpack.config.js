@@ -1,4 +1,5 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const siteBackground = require("./src/siteBackgroundV2.js")
 const path = require('path');
 console.log("PATH" , path , __dirname)
 
